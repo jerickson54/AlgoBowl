@@ -1,0 +1,7 @@
+﻿  main.cpp
+c:\csci406\algobowl\algobowl\main.cpp(104): warning C4018: '<': signed/unsigned mismatch
+c:\csci406\algobowl\algobowl\main.cpp(118): warning C4018: '<': signed/unsigned mismatch
+c:\csci406\algobowl\algobowl\main.cpp(131): warning C4018: '<': signed/unsigned mismatch
+c:\csci406\algobowl\algobowl\main.cpp(144): warning C4018: '<': signed/unsigned mismatch
+  AlgoBowl.vcxproj -> C:\CSCI406\AlgoBowl\Debug\AlgoBowl.exe
+  AlgoBowl.vcxproj -> C:\CSCI406\AlgoBowl\Debug\AlgoBowl.pdb (Partial PDB)
