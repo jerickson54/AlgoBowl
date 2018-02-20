@@ -3,6 +3,7 @@
 #include <fstream>
 #include <queue>
 #include <set>
+#include <time.h>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ struct algoBowl {
 };
 
 
+
  
 
 vector<vector<int>> loadPoints( int  &n, int  &m, vector<algoBowl> &allNodes);
@@ -33,6 +35,8 @@ void printMatrix(vector<vector<int>> adjMatrix, int n);
 void chronicStupididty(vector<vector<int>> adjMatrix, set<int>& firstContainer, set<int>& secondContainer, vector< algoBowl> allNodes, int& finalWeight);
 void printAllNodes(vector < algoBowl> allNodes);
 void makeOutput(int totalWeight, set<int> firstContainer, set<int> secondContainer);
+void inputGeneratorAllNodesTouching();
+void inputGeneratorTouchingOne();
 
 
 int main() {
@@ -52,9 +56,14 @@ int main() {
 
 	adjMatrix = loadPoints( numVertices, numEdges,allNodes);
 	//printAllNodes(allNodes);
-	chronicStupididty(adjMatrix, firstContainer, secondContainer,allNodes,totalWeight);
-	//printMatrix(adjMatrix, numVertices);
+	//chronicStupididty(adjMatrix, firstContainer, secondContainer,allNodes,totalWeight);
+	printMatrix(adjMatrix, numVertices);
 	makeOutput(totalWeight, firstContainer, secondContainer);
+
+	//inputGeneratorAllNodesTouching();
+	//inputGeneratorTouchingOne();
+
+
 
 
 
@@ -216,10 +225,17 @@ vector<vector<int>> loadPoints( int  &n, int  &m, vector <algoBowl>& allNodes) {
 
 	while (file >> node >> adj >> weight) {
 
-		algoBowl temp(node, adj, weight);
-		allNodes.push_back(temp);
-		adjMat[node-1][adj-1] = weight;
-		adjMat[adj-1][node-1] = weight;
+		if (weight >= 1 && weight <= 50) {
+
+			algoBowl temp(node, adj, weight);
+			allNodes.push_back(temp);
+			adjMat[node - 1][adj - 1] = weight;
+			adjMat[adj - 1][node - 1] = weight;
+		}
+
+		else
+			cout << "One of the weights in the input file is invalid." << endl;
+		
 
 	
 
@@ -272,3 +288,82 @@ void makeOutput(int totalWeight, set<int> firstContainer, set<int> secondContain
 	output.close();
 
 }
+
+void inputGeneratorAllNodesTouching() {
+
+
+	ofstream output("genInput12.txt");
+
+	int numNodes = 12;
+	//assuming every node is touching every other node
+	int numEdges = (((numNodes-1) * (numNodes-1))+(numNodes-1)) / 2;
+	srand(time(NULL));
+	
+	if (output.is_open()) {
+
+		output << numNodes << " " << numEdges << endl;
+
+		for (int i = 1; i <= numNodes; ++i) {
+			for (int j = i+1; j <= numNodes; ++j) {
+				output << i << " " << j << " " << rand() % 49 + 1 <<endl;
+			}
+		}
+
+
+	}
+
+	output.close();
+
+}
+
+void inputGeneratorTouchingOne() {
+
+
+	ofstream output("genInputTouch10.txt");
+
+	int numNodes = 10;
+	//assuming every node is touching one other node
+	int numEdges = numNodes;
+	srand(time(NULL));
+
+	//keep set to keep track of which nodes are touching
+	vector<int> randomizeInt;
+	//keep track so we dont get reverse of itself
+	vector<int> dontAllowSelf(numNodes);
+
+	for (int i = 1; i <= numNodes; ++i)
+		randomizeInt.push_back(i);
+	std::random_shuffle(randomizeInt.begin(), randomizeInt.end());
+
+	
+
+	if (output.is_open()) {
+
+		output << numNodes << " " << numEdges << endl;
+
+		for (int i = 1; i <= numNodes; ++i) {
+			
+			while (true) {
+				if (randomizeInt.at(0) != i) {
+					output << i << " " << randomizeInt.at(0) << " " << rand() % 49 + 1 << endl;
+					//dontAllowSelf.at(randomizeInt.at(0)) = i;
+					randomizeInt.erase(randomizeInt.begin(), randomizeInt.begin() + 1);
+					break;
+				}
+				else
+					std::random_shuffle(randomizeInt.begin(), randomizeInt.end());
+
+			}
+			
+		}
+
+
+	}
+
+	output.close();
+
+}
+
+
+
+
