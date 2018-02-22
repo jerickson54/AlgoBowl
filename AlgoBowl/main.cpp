@@ -56,8 +56,8 @@ int main() {
 
 	adjMatrix = loadPoints( numVertices, numEdges,allNodes);
 	//printAllNodes(allNodes);
-	//chronicStupididty(adjMatrix, firstContainer, secondContainer,allNodes,totalWeight);
-	printMatrix(adjMatrix, numVertices);
+	chronicStupididty(adjMatrix, firstContainer, secondContainer,allNodes,totalWeight);
+	//printMatrix(adjMatrix, numVertices);
 	makeOutput(totalWeight, firstContainer, secondContainer);
 
 	//inputGeneratorAllNodesTouching();
@@ -66,7 +66,7 @@ int main() {
 
 
 
-
+	system("pause");
 
 
 
@@ -187,6 +187,20 @@ void chronicStupididty(vector<vector<int>> adjMatrix, set<int>& firstContainer, 
 
 		
 	}
+
+
+	// Unconnected nodes, add to smaller container
+	for (int i = 1; i < adjMatrix.size(); i++) {
+		if (secondContainer.find(i) == secondContainer.end() && firstContainer.find(i) == firstContainer.end()) {
+			if (firstContainer.size() < secondContainer.size()) {
+				firstContainer.insert(i);
+			}
+			else {
+				secondContainer.insert(i);
+			}
+		}
+	}
+
 
 	set<int>::iterator it;
 	set<int>::iterator it2;
